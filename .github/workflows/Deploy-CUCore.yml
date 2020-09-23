@@ -26,7 +26,7 @@ jobs:
           lfs: true
 
       - name: Pack solution
-        uses: microsoft/powerplatform-actions/pack-solution@v0
+        uses: microsoft/powerplatform-actions/pack-solution@v0.1.7
         with:
           solution-folder: 'solutions/CUCore/content'
           solution-file: out/CI/solutions/CUCore.zip
