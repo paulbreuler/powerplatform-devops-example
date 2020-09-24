@@ -3,9 +3,6 @@ name: Deploy CUCore
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch
 on:
-  push:
-    branches: 
-      - main
   pull_request:
     branches: [ main ]
     paths: 
@@ -33,11 +30,11 @@ jobs:
         uses: microsoft/powerplatform-actions/pack-solution@v0.1.7
         with:
           solution-folder: 'solutions/${{ env.SOLUTION_NAME}}/content'
-          solution-file: 'out/CI/solutions/CUCore.zip'
+          solution-file: 'out/CI/solutions/${{ env.SOLUTION_NAME}}.zip'
           solution-type: Unmanaged
       
       - name: Upload the ready to ship solution to GH artifact store
         uses: actions/upload-artifact@v2
         with:
           name: managedSolutions
-          path: out/CI/solutions/CUCore.zip
+          path: out/CI/solutions/${{ env.SOLUTION_NAME}}.zip
