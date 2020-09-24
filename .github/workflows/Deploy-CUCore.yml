@@ -32,11 +32,11 @@ jobs:
       - name: Pack solution
         uses: microsoft/powerplatform-actions/pack-solution@v0.1.7
         with:
-          solution-file: out/CI/solutions/${{ env.SOLUTION_NAME }}.zip
+          solution-file: out/CI/solutions/CUCore.zip
           solution-type: Unmanaged
       
       - name: Upload the ready to ship solution to GH artifact store
         uses: actions/upload-artifact@v2
         with:
           name: managedSolutions
-          path: out/CI/solutions/${{ env.SOLUTION_NAME }}.zip
+          path: out/CI/solutions/CUCore.zip
