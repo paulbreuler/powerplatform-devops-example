@@ -9,7 +9,7 @@ on:
   pull_request:
     branches: [ main ]
     paths: 
-      - 'solutions/${{ env.SOLUTION_NAME }}/**'
+      - 'solutions/CUCore/**'
   release:
     types: [ created ]
 
