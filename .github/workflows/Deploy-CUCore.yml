@@ -1,6 +1,8 @@
 # This is a basic workflow to help you get started with Actions
+env:
+  SOLUTION_NAME: 'CUCore'
 
-name: Deploy CUCore
+name: Deploy ${{ evn.SOLUTION_NAME }}
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch
@@ -11,7 +13,7 @@ on:
   pull_request:
     branches: [ main ]
     paths: 
-      - 'solutions/CUCore/**'
+      - 'solutions/${{ evn.SOLUTION_NAME }}/**'
   release:
     types: [ created ]
 
@@ -31,12 +33,11 @@ jobs:
       - name: Pack solution
         uses: microsoft/powerplatform-actions/pack-solution@v0.1.7
         with:
-          solution-folder: 'solutions/CUCore/content'
-          solution-file: out/CI/solutions/CUCore.zip
+          solution-file: out/CI/solutions/${{ evn.SOLUTION_NAME }}.zip
           solution-type: Unmanaged
       
       - name: Upload the ready to ship solution to GH artifact store
         uses: actions/upload-artifact@v2
         with:
           name: managedSolutions
-          path: out/CI/solutions/CUCore.zip
+          path: out/CI/solutions/${{ evn.SOLUTION_NAME }}.zip
