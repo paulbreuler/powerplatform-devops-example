@@ -6,20 +6,18 @@ on:
     types: [ export_cucore]
    workflow_dispatch:
 
-# Define solution name in one place.
+# Define common strings 
 env: 
    SOLUTION_NAME: CUCore
    CRM_URL: https://orgdfc3d319.crm.dynamics.com/
 
 jobs:
 
-  build:
+  export-unmanaged:
 
     runs-on: windows-latest
 
     steps:
-
-      - uses: actions/checkout@v2
 
       - name: export-solution action
         uses: microsoft/powerplatform-actions/export-solution@v0.1.7
@@ -30,14 +28,60 @@ jobs:
           solution-name: ${{ env.SOLUTION_NAME }}
           solution-output-file: out/exported/${{ env.SOLUTION_NAME }}.zip
 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: cucore_unmanaged
+          path: out/exported/${{ env.SOLUTION_NAME }}.zip
+
+  export-managed:
+
+    runs-on: windows-latest
+
+    steps:
+       
+      - name: export-solution action
+        uses: microsoft/powerplatform-actions/export-solution@v0.1.7
+        with:
+          environment-url: ${{ env.CRM_URL }}
+          user-name: ${{ secrets.USERNAME }}
+          password-secret: ${{ secrets.PASSWORD }}
+          solution-name: ${{ env.SOLUTION_NAME }}
+          solution-output-file: out/exported/${{ env.SOLUTION_NAME }}_managed.zip
+          
+      - uses: actions/upload-artifact@v2
+        with:
+          name: cucore_managed
+          path: out/exported/${{ env.SOLUTION_NAME }}_managed.zip
+          
+  commit-solution:
+     
+    needs: [export-managed, export-unmanaged]
+    
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: artifacts/solutions
+          
+      - name: Move files
+        run: |
+           mv cucore_managed/*.zip .
+           mv cucore_unmanaged/*.zip .
+        working-directory: artifacts/solutions
+        
       - name: unpack-solution action
         uses: microsoft/powerplatform-actions/unpack-solution@v0.1.7
         with:
-          solution-file: out/exported/${{ env.SOLUTION_NAME }}.zip
+          solution-file: artifacts/solutions/${{ env.SOLUTION_NAME }}.zip
           solution-folder: out/solutions/${{ env.SOLUTION_NAME }}
-          solution-type: 'Unmanaged'
+          solution-type: 'both'
           overwrite-files: true
-
+       
+      - uses: actions/checkout@v2
       - name: branch-solution, prepare it for a PullRequest
         uses: microsoft/powerplatform-actions/branch-solution@v0.1.7
         with:
