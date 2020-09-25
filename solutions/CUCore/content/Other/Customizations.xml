@@ -11,8 +11,30 @@
   <optionsets />
   <CustomControls />
   <EntityDataProviders />
+  <connectionreferences>
+    <connectionreference connectionreferencelogicalname="cu_sharedsendmail_39425">
+      <connectionreferencedisplayname>Mail</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_sendmail</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="cu_sharedcommondataserviceforapps_bc777">
+      <connectionreferencedisplayname>Common Data Service (current environment)</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+    <connectionreference connectionreferencelogicalname="cu_sharedteams_8b975">
+      <connectionreferencedisplayname>Microsoft Teams</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_teams</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+  </connectionreferences>
   <Languages>
     <Language>1033</Language>
-    <Language>1036</Language>
   </Languages>
 </ImportExportXml>

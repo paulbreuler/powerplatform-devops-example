@@ -60,6 +60,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - uses: actions/checkout@v2
 
       - name: download artifacts
         uses: actions/download-artifact@v2
@@ -68,19 +69,17 @@ jobs:
           
       - name: Move files
         run: |
-           mv cucore_managed/*.zip .
-           mv cucore_unmanaged/*.zip .
-        working-directory: artifacts/solutions
+           mv artifacts/solutions/cucore_managed/*.zip artifacts/solutions
+           mv artifacts/solutions/cucore_unmanaged/*.zip artifacts/solutions
         
       - name: unpack-solution action
         uses: microsoft/powerplatform-actions/unpack-solution@v0.1.7
         with:
           solution-file: artifacts/solutions/${{ env.SOLUTION_NAME }}.zip
           solution-folder: out/solutions/${{ env.SOLUTION_NAME }}
-          solution-type: 'both'
+          solution-type: 'Both'
           overwrite-files: true
        
-      - uses: actions/checkout@v2
       - name: branch-solution, prepare it for a PullRequest
         uses: microsoft/powerplatform-actions/branch-solution@v0.1.7
         with:
