@@ -6,13 +6,11 @@ name: Manual Export, unpack, and commit CUCore
 # events but only for the main branch
 on:
    repository_dispatch: 
-    types: [ export ]
+    types: [ export_cucore]
    workflow_dispatch:
-    inputs:
-      SOLUTION_NAME:
-        description: 'Solution to export'
-        required: true
-        default: 'CUCore'
+
+env: 
+   SOLUTION_NAME: CUCore
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -32,21 +30,21 @@ jobs:
           environment-url: 'https://orgdfc3d319.crm.dynamics.com/'
           user-name: ${{ secrets.USERNAME }}
           password-secret: ${{ secrets.PASSWORD }}
-          solution-name: ${{ github.event.inputs.name }}
-          solution-output-file: out/exported/${{ github.event.inputs.name }}.zip
+          solution-name: ${{ env.SOLUTION_NAME }}
+          solution-output-file: out/exported/${{ env.SOLUTION_NAME }}.zip
 
       - name: unpack-solution action
         uses: microsoft/powerplatform-actions/unpack-solution@v0.1.7
         with:
-          solution-file: out/exported/${{ github.event.inputs.name }}.zip
-          solution-folder: out/solutions/${{ github.event.inputs.name }}
+          solution-file: out/exported/${{ env.SOLUTION_NAME }}.zip
+          solution-folder: out/solutions/${{ env.SOLUTION_NAME }}
           solution-type: 'Unmanaged'
           overwrite-files: true
 
       - name: branch-solution, prepare it for a PullRequest
         uses: microsoft/powerplatform-actions/branch-solution@v0.1.7
         with:
-          solution-folder: out/solutions/${{ github.event.inputs.name }}
-          solution-target-folder: solutions/${{ github.event.inputs.name }}/content
+          solution-folder: out/solutions/${{ env.SOLUTION_NAME }}
+          solution-target-folder: solutions/${{ env.SOLUTION_NAME }}/content
           repo-token: ${{ secrets.GITHUBTOKEN }}
           allow-empty-commit: true
