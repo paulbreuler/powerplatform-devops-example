@@ -56,7 +56,7 @@ jobs:
     - name: Import solution to admissions dev
       uses: microsoft/powerplatform-actions/import-solution@v0.1.7
       with:
-        environment-url: ${{ $env.ADMISSIONS_DEV }}
+        environment-url: ${{ env.ADMISSIONS_DEV }}
         user-name: ${{ secrets.username }}
         password-secret: ${{ secrets.password }}
         solution-file: out/release/${{ env.SOLUTION_NAME}}.zip
@@ -85,7 +85,7 @@ jobs:
     - name: Import solution to admissions dev
       uses: microsoft/powerplatform-actions/import-solution@v0.1.7
       with:
-        environment-url: ${{ $env.FINAID_DEV }}
+        environment-url: ${{ env.FINAID_DEV }}
         user-name: ${{ secrets.username }}
         password-secret: ${{ secrets.password }}
         solution-file: out/release/${{ env.SOLUTION_NAME}}.zip
