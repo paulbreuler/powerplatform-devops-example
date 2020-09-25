@@ -60,7 +60,6 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v2
 
       - name: download artifacts
         uses: actions/download-artifact@v2
