@@ -7,6 +7,8 @@ on:
       - 'solutions/CUCore/**'
 env:
   SOLUTION_NAME: 'CUCore'
+  ADMISSIONS_DEV:  'https://admissions-dev.crm.dynamics.com/'
+  FINAID_DEV: 'https://finaid-dev.crm.dynamics.com/' 
 
 jobs:
 
@@ -54,7 +56,7 @@ jobs:
     - name: Import solution to admissions dev
       uses: microsoft/powerplatform-actions/import-solution@v0.1.7
       with:
-        environment-url: 'https://admissions-dev.crm.dynamics.com/'
+        environment-url: ${{ $env.ADMISSIONS_DEV }}
         user-name: ${{ secrets.username }}
         password-secret: ${{ secrets.password }}
         solution-file: out/release/${{ env.SOLUTION_NAME}}.zip
@@ -83,7 +85,7 @@ jobs:
     - name: Import solution to admissions dev
       uses: microsoft/powerplatform-actions/import-solution@v0.1.7
       with:
-        environment-url: 'https://finaid-dev.crm.dynamics.com/'
+        environment-url: ${{ $env.FINAID_DEV }}
         user-name: ${{ secrets.username }}
         password-secret: ${{ secrets.password }}
         solution-file: out/release/${{ env.SOLUTION_NAME}}.zip
